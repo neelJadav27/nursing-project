@@ -101,8 +101,10 @@ const StudentManagement = () => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
       let result = await res.json();
+      console.log(result);
       if (result.loggedIn && result.loggedIn == false) {
         //navigate("/login");
         console.log("kaidadadsa");

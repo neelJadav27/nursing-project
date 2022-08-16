@@ -9,12 +9,14 @@ import Dashboard from "./Dashboard";
 class App extends React.Component {
   async componentDidMount() {
     try {
+      alert("Called");
       let res = await fetch("http://localhost:3002/isLoggedIn", {
-        method: "post",
+        method: "get",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
       let result = await res.json();
       if (result && result.success) {
@@ -60,6 +62,7 @@ class App extends React.Component {
       );
     } else {
       if (userstore.isLoggedIn) {
+        console.log("User is logged in");
         return (
           <Dashboard />
           // <div className='app' >
@@ -73,6 +76,7 @@ class App extends React.Component {
           // </div>
         );
       }
+      console.log("User is not logged in");
       return (
         // //  <Dashboard/>
         // <Dashboard/>

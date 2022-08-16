@@ -8,15 +8,16 @@ const Router = require("./Router");
 const cookieParser = require("cookie-parser");
 
 var cors = require("cors");
-app.use(cors());
+// app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 console.log("Testing server");
-var corsOptions = {
-  origin: "http://localhost:3000",
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+// var corsOptions = {
+//   origin: "http://localhost:3002",
+//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
 //database
 const db = mysql.createConnection({
   host: "localhost",
@@ -52,7 +53,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1_300_000,
-      httpOnly: true,
+      httpOnly: false,
     },
   })
 );
@@ -68,21 +69,22 @@ app.use(
 //   }
 // };
 
-// app.get("/setsess", (req, res) => {
-//   req.session.userID = 10;
+app.get("/setsess", (req, res) => {
+  req.session.userID = 10;
+  console.log(req.sessionID);
+  res.send("set");
+});
 
-//   res.send("set");
-// });
+app.get("/testprofile", (req, res) => {
+  console.log(req.sessionID);
+  console.log("Hello there", req.session.userID);
+  res.send("Cool There");
+});
 
-// app.get("/testprofile", [checkIfUserLoggedIn], (req, res) => {
-//   console.log("Hello there", req.session.userID);
-//   res.send("Cool There");
-// });
-
-// app.get("/getsess", (req, res) => {
-//   console.log(req.session);
-//   res.send("Ok");
-// });
+app.get("/getsess", (req, res) => {
+  console.log(req.session);
+  res.send("Ok");
+});
 
 // app.get("/destroysess", (req, res) => {
 //   req.session.destroy();
@@ -100,7 +102,7 @@ app.get("/test", function (req, res) {
 });
 
 new Router(app, db);
-app.options("*", cors());
+// app.options("", cors());
 
 // app.get("/", function (req, res, next) {
 //   console.log(req.session);

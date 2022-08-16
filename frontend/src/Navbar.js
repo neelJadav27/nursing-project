@@ -23,6 +23,7 @@ export class Navbar extends React.Component {
       console.log(e);
     }
   }
+
   render() {
     return (
       <header class="header">
@@ -35,7 +36,7 @@ export class Navbar extends React.Component {
 
         <div>
           <ul class="main-nav">
-            <Link to="/Dashboard">Dashboard</Link>
+            <Link to="/">Dashboard</Link>
             <Link to="/StudentManagement">Student Management</Link>
             <div class="dropdown">
               <button class="dropbtn">
