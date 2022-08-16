@@ -79,10 +79,15 @@ class Router {
           if (data && data.length === 1) {
             if (password === data[0].Password) {
               req.session.userID = data[0].Id;
+              console.log(req.sessionID);
+              console.log(data);
+              console.log("User id is", data[0].Id);
+              console.log(req.session);
               res.json({
                 success: true,
                 username: data[0].username,
               });
+
               return;
             } else {
               res.json({
@@ -119,9 +124,8 @@ class Router {
   }
 
   isLoggedIn(app, db) {
-    app.post("/isLoggedIn", (req, res) => {
+    app.get("/isLoggedIn", (req, res) => {
       if (req.session.userID) {
-        console.log(req.session.userID);
         let cols = [req.session.userID];
         db.query(
           "SELECT * FROM user WHERE Id=? LIMIT 1",
@@ -308,7 +312,7 @@ class Router {
   }
 
   load_student_details(app, db) {
-    app.get("/load_student_details", [loginGuard], (req, res) => {
+    app.get("/load_student_details", (req, res) => {
       db.query("SELECT * FROM student", (err, data, fields) => {
         return res.json({
           data,

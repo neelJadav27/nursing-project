@@ -1,5 +1,7 @@
 function loginGuard(req, res, next) {
-  console.log("called");
+  console.log("In guard");
+  console.log(req.sessionID);
+  console.log(req.session);
   if (req.session.userID) {
     next();
   } else {
