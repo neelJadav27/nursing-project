@@ -2,18 +2,11 @@ import React, { useState, useEffect } from "react";
 import "./css/nav.css";
 import "./css/button.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { confirm } from "react-confirm-box";
 import "mdbreact/dist/css/mdb.css";
-import MaterialTable from "material-table";
-import {
-  MDBDataTable,
-  MDBDataTableV5,
-  MDBTableBody,
-  MDBTableHead,
-} from "mdbreact";
+import { MDBDataTable } from "mdbreact";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
 
 const StudentManagement = () => {
@@ -23,16 +16,6 @@ const StudentManagement = () => {
   useEffect(() => {
     load_data();
   }, []);
-
-  const columns = [
-    { dataField: "Id", text: "Id" },
-    { dataField: "StudentNumber", text: "S.no" },
-    { dataField: "LastName", text: "Last Name" },
-    { dataField: "FirstName", text: "First Name" },
-    { dataField: "5", text: "Year of Study" },
-    { dataField: "Email", text: "E-Mail" },
-    { dataField: "9999999", text: "Phone Number" },
-  ];
 
   const data = {
     columns: [

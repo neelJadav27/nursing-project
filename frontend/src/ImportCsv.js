@@ -79,6 +79,7 @@ const ImportCsv = () => {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify(studentInfo),
         });
         let result = await res.json();
@@ -94,6 +95,24 @@ const ImportCsv = () => {
   const addStudentData = async (e) => {
     e.preventDefault();
     var bigArr = [];
+
+    if (array.length < 1) {
+      return;
+    }
+    try {
+      let res = await fetch("http://localhost:3002/updateYearOfStudy", {
+        method: "get",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      let result = await res.json();
+      console.log(result.msg);
+    } catch (err) {
+      console.log(err);
+    }
 
     array.forEach((v) => {
       let arr = [
@@ -127,6 +146,7 @@ const ImportCsv = () => {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
       let result = await res.json();
       console.log(result);

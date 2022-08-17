@@ -9,7 +9,7 @@ import Dashboard from "./Dashboard";
 class App extends React.Component {
   async componentDidMount() {
     try {
-      alert("Called");
+      // alert("Called");
       let res = await fetch("http://localhost:3002/isLoggedIn", {
         method: "get",
         headers: {

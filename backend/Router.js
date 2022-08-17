@@ -45,6 +45,8 @@ class Router {
     this.load_student_details(app, db);
     this.addStudentsInfo(app, db);
     this.fetchStudents(app, db);
+    this.studentInformation(app, db);
+    this.updateYearOfStudy(app, db);
   }
 
   login(app, db) {
@@ -732,27 +734,73 @@ class Router {
   // API for adding students info to the database
   addStudentsInfo(app, db) {
     app.post("/addStudentsInfo", (req, res) => {
-      var cols = req.body;
-      var sql =
-        "INSERT INTO studentinfo (StudentNumber, LastName, FirstName, YearofStudy, Email, PhoneNumber) VALUES ?";
-      db.query(sql, [cols], (err, data, fields) => {
-        res.json({
-          msg: "New Students details have been added to the database",
+      if (req.session.userID) {
+        var cols = req.body;
+        var sql =
+          "INSERT INTO studentinfo (StudentNumber, LastName, FirstName, YearofStudy, Email, PhoneNumber) VALUES ?";
+        db.query(sql, [cols], (err, data, fields) => {
+          res.json({
+            msg: "New Students details have been added to the database",
+            success: true,
+          });
+          return;
         });
-        return;
-      });
+      } else {
+        res.json({
+          success: false,
+        });
+      }
     });
   }
 
   // sending students to the front end
   fetchStudents(app, db) {
     app.get("/fetchStudents", (req, res) => {
-      db.query("SELECT * FROM student", (err, data, fields) => {
-        res.json({
-          data,
+      if (req.session.userID) {
+        db.query("SELECT * FROM student", (err, data, fields) => {
+          res.json({
+            data,
+            success: true,
+          });
+          return data;
         });
-        return data;
-      });
+      } else {
+        res.json({
+          success: false,
+        });
+      }
+    });
+  }
+
+  studentInformation(app, db) {
+    app.get("/studentInformation/:year", (req, res) => {
+      var year = parseInt(req.params.year);
+      db.query(
+        "SELECT * FROM studentinfo where YearOfStudy = " + year,
+        (err, data, fields) => {
+          res.json({
+            data,
+          });
+          return data;
+        }
+      );
+    });
+  }
+
+  updateYearOfStudy(app, db) {
+    app.get("/updateYearOfStudy", (req, res) => {
+      db.query(
+        "UPDATE studentinfo SET YearOfStudy = CASE WHEN YearOfStudy < 4 THEN YearOfStudy + 1 ELSE 'ALUMNI' END ; ",
+        (err, msg, fields) => {
+          if (err) {
+            console.log(err);
+          }
+          res.json({
+            msg: "Successssssss",
+          });
+          return msg;
+        }
+      );
     });
   }
 }
