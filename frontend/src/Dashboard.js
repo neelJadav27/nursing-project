@@ -21,6 +21,7 @@ import AddStudentRecord from "./AddStudentRecord";
 import Year from "./Year";
 import AddYear from "./AddYear";
 import EditYear from "./EditYear";
+import StudentInfoPage from "./StudentInfoPage";
 import ImportCsv from "./ImportCsv";
 
 export class Dashboard extends React.Component {
@@ -31,6 +32,11 @@ export class Dashboard extends React.Component {
         <Navbar />{" "}
         <Routes>
           <Route exact path="/" element={<Summary />}></Route>
+          <Route
+            exact
+            path="/StudentInfoPage/:year"
+            element={<StudentInfoPage />}
+          />
           <Route
             exact
             path="/StudentManagement/*"
